@@ -41,7 +41,7 @@
 ```bash
 export SPOTIPY_CLIENT_ID='your_client_id'
 export SPOTIPY_CLIENT_SECRET='your_client_secret'
-export SPOTIPY_REDIRECT_URI='http://localhost:3000/callback'
+export SPOTIPY_REDIRECT_URI='https://127.0.0.1:3000/callback'
 ```
 
 ### 2. Download a Playlist
@@ -90,7 +90,7 @@ ls tmp/
 The application requires three environment variables:
 - `SPOTIPY_CLIENT_ID` - From Spotify Developer Dashboard
 - `SPOTIPY_CLIENT_SECRET` - From Spotify Developer Dashboard
-- `SPOTIPY_REDIRECT_URI` - OAuth callback (default: http://localhost:3000/callback)
+- `SPOTIPY_REDIRECT_URI` - OAuth callback (default: https://127.0.0.1:3000/callback)
 
 ### OAuth Flow
 On first run, the application will:

@@ -29,7 +29,7 @@ def validate_environment() -> None:
         print("  2. Set the following environment variables:", file=sys.stderr)
         print("     export SPOTIPY_CLIENT_ID='your_client_id'", file=sys.stderr)
         print("     export SPOTIPY_CLIENT_SECRET='your_client_secret'", file=sys.stderr)
-        print("     export SPOTIPY_REDIRECT_URI='http://localhost:3000/callback'", file=sys.stderr)
+        print("     export SPOTIPY_REDIRECT_URI='https://127.0.0.1:3000/callback'", file=sys.stderr)
         print(
             "\n  Alternatively, create a .env file with these variables.\n", file=sys.stderr)
         sys.exit(1)

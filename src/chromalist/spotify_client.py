@@ -16,7 +16,7 @@ class SpotifyClient:
         Environment variables required:
         - SPOTIPY_CLIENT_ID: Your Spotify application client ID
         - SPOTIPY_CLIENT_SECRET: Your Spotify application client secret
-        - SPOTIPY_REDIRECT_URI: OAuth redirect URI (default: http://localhost:3000/callback)
+        - SPOTIPY_REDIRECT_URI: OAuth redirect URI (default: http://127.0.0.1:3000/callback)
         """
         scope = "playlist-read-private playlist-read-collaborative"
 

@@ -46,7 +46,7 @@ Expected output:
   2. Set the following environment variables:
      export SPOTIPY_CLIENT_ID='your_client_id'
      export SPOTIPY_CLIENT_SECRET='your_client_secret'
-     export SPOTIPY_REDIRECT_URI='http://localhost:3000/callback'
+     export SPOTIPY_REDIRECT_URI='https://127.0.0.1:3000/callback'
 
   Alternatively, create a .env file with these variables.
 ```
@@ -67,7 +67,7 @@ Or export environment variables:
 ```bash
 export SPOTIPY_CLIENT_ID='your_actual_client_id'
 export SPOTIPY_CLIENT_SECRET='your_actual_client_secret'
-export SPOTIPY_REDIRECT_URI='http://localhost:3000/callback'
+export SPOTIPY_REDIRECT_URI='https://127.0.0.1:3000/callback'
 ```
 
 ### 3. Test Playlist Download

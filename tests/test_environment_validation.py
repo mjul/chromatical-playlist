@@ -12,7 +12,7 @@ def test_validate_environment_all_vars_present():
     with patch.dict(os.environ, {
         "SPOTIPY_CLIENT_ID": "test_client_id",
         "SPOTIPY_CLIENT_SECRET": "test_client_secret",
-        "SPOTIPY_REDIRECT_URI": "http://localhost:3000/callback",
+        "SPOTIPY_REDIRECT_URI": "https://127.0.0.1:3000/callback",
     }):
         # Should not raise any exception
         validate_environment()
@@ -24,7 +24,7 @@ def test_validate_environment_missing_client_id():
 
     with patch.dict(os.environ, {
         "SPOTIPY_CLIENT_SECRET": "test_client_secret",
-        "SPOTIPY_REDIRECT_URI": "http://localhost:3000/callback",
+        "SPOTIPY_REDIRECT_URI": "https://127.0.0.1:3000/callback",
     }, clear=True):
         with pytest.raises(SystemExit) as exc_info:
             validate_environment()
@@ -37,7 +37,7 @@ def test_validate_environment_missing_client_secret():
 
     with patch.dict(os.environ, {
         "SPOTIPY_CLIENT_ID": "test_client_id",
-        "SPOTIPY_REDIRECT_URI": "http://localhost:3000/callback",
+        "SPOTIPY_REDIRECT_URI": "https://127.0.0.1:3000/callback",
     }, clear=True):
         with pytest.raises(SystemExit) as exc_info:
             validate_environment()
