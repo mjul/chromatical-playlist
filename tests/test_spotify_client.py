@@ -48,23 +48,20 @@ def mock_spotify_data():
 def mock_spotify_client():
     """Create a SpotifyClient with mocked spotipy."""
     with patch("chromalist.spotify_client.spotipy.Spotify") as mock_sp:
-        with patch("chromalist.spotify_client.SpotifyOAuth"):
+        with patch("chromalist.spotify_client.SpotifyClientCredentials"):
             client = SpotifyClient()
             client.sp = mock_sp.return_value
             yield client
 
 
 def test_spotify_client_initialization():
-    """Test that SpotifyClient initializes with OAuth."""
+    """Test that SpotifyClient initializes with Client Credentials."""
     with patch("chromalist.spotify_client.spotipy.Spotify") as mock_sp:
-        with patch("chromalist.spotify_client.SpotifyOAuth") as mock_auth:
+        with patch("chromalist.spotify_client.SpotifyClientCredentials") as mock_auth:
             _ = SpotifyClient()
 
-            # Verify OAuth was created with correct scope
-            mock_auth.assert_called_once()
-            call_kwargs = mock_auth.call_args[1]
-            assert "playlist-read-private" in call_kwargs["scope"]
-            assert call_kwargs["open_browser"] is True
+            # Verify Client Credentials was created
+            mock_auth.assert_called_once_with()
 
             # Verify Spotify client was created with auth manager
             mock_sp.assert_called_once()
