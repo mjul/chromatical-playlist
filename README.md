@@ -68,4 +68,7 @@ writing a file `sorted-playlist.json` with the result.
 python -m chromalist --generate-sorted-playlist
 ```
 
+### Spotify API Tokens
 
+You have to sign up for the Spotify Developer programme.
+After that "Create an app" to get a client ID and client secret to sign in via the API.
