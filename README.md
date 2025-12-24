@@ -10,6 +10,7 @@ So here it is, a tool to sort your playlists chromotographically by album cover 
 ```bash
 uv run python -m chromalist get-playlist 3cEYpjA9oz9GiPac4AsH4n
 uv run python -m chromalist process-images
+uv run python -m chromalist generate-sorted-playlist
 ```
 
 Run tests:
@@ -63,14 +64,14 @@ Download a playlist with a given ID and its album cover images to the output dir
 The playlist is called `playlist.json`, the images are named from their Spotify track IDs, `{track-id}.jpg`.
 
 ```bash
-uv run python -m chromalist --get-playlist {playlist-id}
+uv run python -m chromalist get-playlist {playlist-id}
 ```
 
 #### Process Images
 Run the image processing on the images in the output directory, writing a `image-colours.json` file there with the result.
 
 ```bash
-uv run python -m chromalist --process-images
+uv run python -m chromalist process-images
 ```
 
 #### Sort Playlist
@@ -78,7 +79,7 @@ Generate a chromatically sorted playlist from the `playlist.json` and the `image
 writing a file `sorted-playlist.json` with the result.
 
 ```bash
-uv run python -m chromalist --generate-sorted-playlist
+uv run python -m chromalist generate-sorted-playlist
 ```
 
 ### Spotify API Tokens

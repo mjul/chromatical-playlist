@@ -125,14 +125,45 @@ def process_images(
 def generate_sorted_playlist(
     output_dir: output_dir_option = Path("tmp"),
 ) -> None:
-    """Generate a chromatically sorted playlist (NOT YET IMPLEMENTED).
+    """Generate a chromatically sorted playlist.
 
-    Reads playlist.json and image-colours.json from output directory and
-    generates sorted-playlist.json.
+    Reads playlist.json and image-colours.json from output directory,
+    sorts tracks by the hue of their dominant album cover color,
+    and writes sorted-playlist.json.
     """
+    from chromalist.playlist_sorting import sort_playlist_by_hue
+
     typer.echo(f"🎨 Generating sorted playlist from {output_dir}...")
-    typer.echo("⚠️  This command is not yet implemented.")
-    raise typer.Exit(code=1)
+
+    # Validate output directory exists
+    if not output_dir.exists():
+        typer.echo(
+            f"❌ Error: Output directory does not exist: {output_dir}", err=True
+        )
+        typer.echo(
+            "Please run 'get-playlist' and 'process-images' first.", err=True
+        )
+        raise typer.Exit(code=1)
+
+    try:
+        sorted_playlist, excluded_count = sort_playlist_by_hue(output_dir)
+
+        typer.echo(f"✅ Sorted {len(sorted_playlist.tracks)} tracks by hue")
+
+        if excluded_count > 0:
+            typer.echo(
+                f"⚠️  Excluded {excluded_count} track(s) without valid color data"
+            )
+
+        output_file = output_dir / "sorted-playlist.json"
+        typer.echo(f"💾 Saved sorted playlist to {output_file}")
+
+    except FileNotFoundError as e:
+        typer.echo(f"❌ Error: {e}", err=True)
+        raise typer.Exit(code=1)
+    except Exception as e:
+        typer.echo(f"❌ Error generating sorted playlist: {e}", err=True)
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":
