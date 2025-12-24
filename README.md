@@ -5,6 +5,19 @@ characters sorted his music albums chromatographically, so thought that was a no
 
 So here it is, a tool to sort your playlists chromotographically by album cover art.
 
+## Quick Start
+
+```bash
+uv run python -m chromalist get-playlist 3cEYpjA9oz9GiPac4AsH4n
+uv run python -m chromalist process-images
+```
+
+Run tests:
+
+```bash
+uv run pytest
+```
+
 ## How it works
 
 - fetch a playlist from Spotify (note: API token required)
