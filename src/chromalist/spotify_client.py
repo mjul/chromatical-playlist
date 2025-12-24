@@ -2,7 +2,7 @@ from pathlib import Path
 
 import requests
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyClientCredentials
 
 from chromalist.models import Playlist, Track
 
@@ -11,19 +11,13 @@ class SpotifyClient:
     """Client for interacting with Spotify API."""
 
     def __init__(self):
-        """Initialize Spotify client with OAuth authentication.
+        """Initialize Spotify client with Client Credentials authentication.
 
         Environment variables required:
         - SPOTIPY_CLIENT_ID: Your Spotify application client ID
         - SPOTIPY_CLIENT_SECRET: Your Spotify application client secret
-        - SPOTIPY_REDIRECT_URI: OAuth redirect URI (default: http://127.0.0.1:3000/callback)
         """
-        scope = "playlist-read-private playlist-read-collaborative"
-
-        auth_manager = SpotifyOAuth(
-            scope=scope,
-            open_browser=True,
-        )
+        auth_manager = SpotifyClientCredentials()
 
         self.sp = spotipy.Spotify(auth_manager=auth_manager)
 
