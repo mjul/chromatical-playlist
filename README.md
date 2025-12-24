@@ -37,3 +37,35 @@ project_root/
 │       └── models.py            # A bit overkill, but this is the domain model
 └── tests/                       # Tests code for the various files above
 ```
+
+### Command Line Interface
+By default, all intermediate data (playlists, images _etc._) is stored in the `tmp/` directory.
+
+#### Setting the Output Directory
+You can use the `--output-dir {dir-name}` to specify the output directory for intermediate files. The default is `tmp/`.
+
+#### Download a Playlist from Spotify
+Download a playlist with a given ID and its album cover images to the output directory.
+
+The playlist is called `playlist.json`, the images are named from their Spotify track IDs, `{track-id}.jpg`.
+
+```
+python -m chromalist --get-playlist {playlist-id}
+```
+
+#### Process Images
+Run the image processing on the images in the output directory, writing a `image-colours.json` file there with the result.
+
+```
+python -m chromalist --process-images
+```
+
+#### Sort Playlist
+Generate a chromatically sorted playlist from the `playlist.json` and the `image-colours.json` in the output directory 
+writing a file `sorted-playlist.json` with the result.
+
+```
+python -m chromalist --generate-sorted-playlist
+```
+
+
