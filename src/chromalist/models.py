@@ -60,3 +60,30 @@ class Playlist:
         with open(filepath, "r") as f:
             data = json.load(f)
         return cls.from_dict(data)
+
+
+@dataclass
+class ImageColorData:
+    track_id: str
+    rgbs: list[tuple[int, int, int]]
+    hsvs: list[tuple[float, float, float]]
+    error: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert ImageColorData to dictionary for JSON serialization."""
+        return {
+            "track_id": self.track_id,
+            "rgbs": self.rgbs,
+            "hsvs": self.hsvs,
+            "error": self.error,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "ImageColorData":
+        """Create ImageColorData from dictionary."""
+        return cls(
+            track_id=data["track_id"],
+            rgbs=[tuple(rgb) for rgb in data["rgbs"]],
+            hsvs=[tuple(hsv) for hsv in data["hsvs"]],
+            error=data.get("error"),
+        )

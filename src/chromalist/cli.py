@@ -3,6 +3,7 @@ from pathlib import Path
 import typer
 from typing_extensions import Annotated
 
+from chromalist.image_processing import ImageProcessor
 from chromalist.spotify_client import SpotifyClient
 
 app = typer.Typer()
@@ -69,14 +70,55 @@ def get_playlist(
 @app.command()
 def process_images(
     output_dir: output_dir_option = Path("tmp"),
+    k: Annotated[int, typer.Option(
+        help="Number of dominant colors to extract per image")] = 3,
 ) -> None:
-    """Process images to extract dominant colors (NOT YET IMPLEMENTED).
+    """Process images to extract dominant colors.
 
     Reads images from output directory and writes color data to image-colours.json.
     """
+    import json
+
     typer.echo(f"🔮 Processing images in {output_dir}...")
-    typer.echo("⚠️  This command is not yet implemented.")
-    raise typer.Exit(code=1)
+
+    # Validate output directory exists
+    if not output_dir.exists():
+        typer.echo(
+            f"❌ Error: Output directory does not exist: {output_dir}", err=True)
+        typer.echo(
+            "Please run 'get-playlist' first to download playlist data.", err=True)
+        raise typer.Exit(code=1)
+
+    # Process images
+    try:
+        processor = ImageProcessor()
+        results = processor.process_playlist(output_dir, k=k)
+    except FileNotFoundError as e:
+        typer.echo(f"❌ Error: {e}", err=True)
+        raise typer.Exit(code=1)
+    except Exception as e:
+        typer.echo(f"❌ Error processing images: {e}", err=True)
+        raise typer.Exit(code=1)
+
+    # Count errors
+    error_count = sum(1 for r in results if r.error is not None)
+    success_count = len(results) - error_count
+
+    typer.echo(
+        f"✅ Successfully processed {success_count}/{len(results)} images")
+    if error_count > 0:
+        typer.echo(
+            f"⚠️  {error_count} image(s) had processing errors (see image-colours.json)")
+
+    # Save results to JSON
+    output_file = output_dir / "image-colours.json"
+    try:
+        with open(output_file, "w") as f:
+            json.dump([r.to_dict() for r in results], f, indent=2)
+        typer.echo(f"💾 Saved color data to {output_file}")
+    except Exception as e:
+        typer.echo(f"❌ Error saving results to {output_file}: {e}", err=True)
+        raise typer.Exit(code=1)
 
 
 @app.command()
