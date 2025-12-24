@@ -86,3 +86,21 @@ uv run python -m chromalist generate-sorted-playlist
 
 You have to sign up for the Spotify Developer programme.
 After that "Create an app" to get a client ID and client secret to sign in via the API.
+
+## Example
+
+It turns this:
+
+<img src="https://i.scdn.co/image/ab67616d0000b273ce6d0eef0c1ce77e5f95bbbc" alt="Odiseo: Api" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273aa2ff29970d9a63a49dfaeb2" alt="Vlasta Marek: Is" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ee0d0dce888c6c8a70db6e8b" alt="LCD Soundsystem: All I Want" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738b7447ac3daa1da18811cf7b" alt="Glenn Horiuchi: Endpoints" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27304e57d181ff062f8339d6c71" alt="Zucchero: You Are So Beautiful" width="64" height="64">
+
+into this:
+
+<img src="https://i.scdn.co/image/ab67616d0000b273ee0d0dce888c6c8a70db6e8b" alt="LCD Soundsystem: All I Want" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ce6d0eef0c1ce77e5f95bbbc" alt="Odiseo: Api" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27304e57d181ff062f8339d6c71" alt="Zucchero: You Are So Beautiful" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273aa2ff29970d9a63a49dfaeb2" alt="Vlasta Marek: Is" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738b7447ac3daa1da18811cf7b" alt="Glenn Horiuchi: Endpoints" width="64" height="64">
