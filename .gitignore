@@ -208,3 +208,6 @@ __marimo__/
 
 # JetBrains PyCharm
 .idea/
+
+# The application's output directory
+tmp/
