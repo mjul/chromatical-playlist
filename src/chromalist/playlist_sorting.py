@@ -91,4 +91,11 @@ def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
     output_path = output_dir / "sorted-playlist.json"
     sorted_playlist.to_json(str(output_path))
 
+    # Write a list of the images as markdown (so we can show them in the README)
+    images_md_path = output_dir / "sorted-playlist-images.md"
+    with open(images_md_path, "w") as f:
+        for track in sortable_tracks:
+            f.write(
+                f'<img src="{track.album_art_url}" alt="{track.name} ({track.artist})" width="64" height="64">\n')
+
     return sorted_playlist, len(excluded_tracks)
