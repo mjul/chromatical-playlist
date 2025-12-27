@@ -5,6 +5,7 @@ from typing_extensions import Annotated
 
 from chromalist.files import FilePaths
 from chromalist.image_processing import ImageProcessor
+from chromalist.models import Playlist
 from chromalist.spotify_client import SpotifyClient
 
 app = typer.Typer()
@@ -93,16 +94,32 @@ def process_images(
 
     file_paths = FilePaths(output_dir)
 
-    # Process images
-    try:
-        processor = ImageProcessor()
-        results = processor.process_playlist(file_paths, k=k)
-    except FileNotFoundError as e:
-        typer.echo(f"❌ Error: {e}", err=True)
-        raise typer.Exit(code=1)
-    except Exception as e:
-        typer.echo(f"❌ Error processing images: {e}", err=True)
-        raise typer.Exit(code=1)
+    # Load playlist
+    playlist_path = file_paths.playlist_path()
+    if not playlist_path.exists():
+        raise FileNotFoundError(
+            f"Playlist file not found: {playlist_path}\n"
+            "Please run 'get-playlist' first to download playlist data."
+        )
+
+    playlist = Playlist.from_json(playlist_path)
+    processor = ImageProcessor()
+
+    # Validate all image files exist
+    processor.validate_files(file_paths, playlist)
+
+    # Process each track's image
+    results = []
+    with typer.progressbar(playlist.tracks, label="Processing") as progress:
+        for track in progress:
+            try:
+                results.append(processor.proces_track(file_paths, k, track))
+            except FileNotFoundError as e:
+                typer.echo(f"❌ Error: {e}", err=True)
+                raise typer.Exit(code=1)
+            except Exception as e:
+                typer.echo(f"❌ Error processing images: {e}", err=True)
+                raise typer.Exit(code=1)
 
     # Count errors
     error_count = sum(1 for r in results if r.error is not None)
