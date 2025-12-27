@@ -34,10 +34,16 @@ class ImageProcessor:
                 f"Missing {len(missing_files)} image file(s). "
                 f"Please run 'get-playlist' first to download images.\n"
                 f"Missing files: {', '.join(missing_files[:5])}"
-                + (f" and {len(missing_files) - 5} more..." if len(missing_files) > 5 else "")
+                + (
+                    f" and {len(missing_files) - 5} more..."
+                    if len(missing_files) > 5
+                    else ""
+                )
             )
 
-    def extract_colours(self, image_path: Path, k: int = 3) -> tuple[list[tuple[int, int, int]], list[tuple[float, float, float]]]:
+    def extract_colours(
+        self, image_path: Path, k: int = 3
+    ) -> tuple[list[tuple[int, int, int]], list[tuple[float, float, float]]]:
         """Extract k dominant colours from an image.
 
         Args:
@@ -68,6 +74,7 @@ class ImageProcessor:
 
         # Calculate frequency of each cluster to sort by dominance
         from scipy.cluster.vq import vq
+
         codes, _ = vq(pixels_float, centroids)
         unique, counts = np.unique(codes, return_counts=True)
 
@@ -85,57 +92,17 @@ class ImageProcessor:
 
         return rgb_colours, hsv_colours
 
-    def process_playlist(self, file_paths: FilePaths, k: int = 3) -> list[ImageColourData]:
-        """Process all images in a playlist to extract dominant colours.
-
-        Args:
-            file_paths: FilePaths instance for managing paths
-            k: Number of dominant colours to extract per image
-
-        Returns:
-            List of ImageColourData objects, one per track
-
-        Raises:
-            FileNotFoundError: If playlist.json or any image files are missing
-        """
-        # Load playlist
-        playlist_path = file_paths.playlist_path()
-        if not playlist_path.exists():
-            raise FileNotFoundError(
-                f"Playlist file not found: {playlist_path}\n"
-                "Please run 'get-playlist' first to download playlist data."
-            )
-
-        playlist = Playlist.from_json(playlist_path)
-
-        # Validate all image files exist
-        self.validate_files(file_paths, playlist)
-
-        # Process each track's image
-        results = []
-        for track in playlist.tracks:
-            results.append(self.process_track(file_paths, k, track))
-
-        return results
-
     def process_track(self, file_paths: FilePaths, k, track) -> ImageColourData:
         image_path = file_paths.track_image_path(track.id)
 
         try:
             rgbs, hsvs = self.extract_colours(image_path, k)
             result = ImageColourData(
-                track_id=track.id,
-                rgbs=rgbs,
-                hsvs=hsvs,
-                error=None
+                track_id=track.id, rgbs=rgbs, hsvs=hsvs, error=None
             )
         except Exception as e:
             # Flag error but continue processing
             result = ImageColourData(
-                track_id=track.id,
-                rgbs=[],
-                hsvs=[],
-                error=str(e)
-            )
+                track_id=track.id, rgbs=[], hsvs=[], error=str(e))
 
         return result

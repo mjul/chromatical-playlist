@@ -91,37 +91,7 @@ def test_process_images_missing_directory():
         FilePaths(nonexistent_dir)
 
 
-def test_process_images_missing_playlist_json(temp_dir):
-    """Test that processing fails when playlist.json is missing."""
-    processor = ImageProcessor()
-    file_paths = FilePaths(temp_dir)
-
-    with pytest.raises(FileNotFoundError) as exc_info:
-        processor.process_playlist(file_paths)
-
-    assert "Playlist file not found" in str(exc_info.value)
-
-    assert "Playlist file not found" in str(exc_info.value)
-    assert "get-playlist" in str(exc_info.value)
-
-
-def test_process_images_missing_image_files(temp_dir, sample_playlist):
-    """Test that processing fails when image files are missing."""
-    file_paths = FilePaths(temp_dir)
-    # Save playlist.json but don't create image files
-    playlist_path = file_paths.playlist_path()
-    sample_playlist.to_json(playlist_path)
-
-    processor = ImageProcessor()
-
-    with pytest.raises(FileNotFoundError) as exc_info:
-        processor.process_playlist(file_paths)
-
-    assert "Missing 3 image file(s)" in str(exc_info.value)
-    assert "get-playlist" in str(exc_info.value)
-
-
-def test_process_images_success(temp_dir, sample_playlist, create_test_image):
+def test_process_images_process_track_success(temp_dir, sample_playlist, create_test_image):
     """Test successful image processing with all files present."""
     file_paths = FilePaths(temp_dir)
     # Save playlist.json
@@ -140,7 +110,13 @@ def test_process_images_success(temp_dir, sample_playlist, create_test_image):
                       colours=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
 
     processor = ImageProcessor()
-    results = processor.process_playlist(file_paths, k=3)
+    k = 3
+    results = []
+    for track in sample_playlist.tracks:
+        results.append(processor.process_track(
+            file_paths, k, track))
+
+    print(len(results), results)
 
     # Verify results
     assert len(results) == 3
@@ -173,7 +149,7 @@ def test_process_images_success(temp_dir, sample_playlist, create_test_image):
             assert 0 <= v <= 100
 
 
-def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_image):
+def test_process_images_process_track_with_different_k(temp_dir, sample_playlist, create_test_image):
     """Test image processing with different k values."""
     file_paths = FilePaths(temp_dir)
     # Save playlist.json
@@ -191,58 +167,19 @@ def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_
     processor = ImageProcessor()
 
     # Test with k=1
-    results_k1 = processor.process_playlist(file_paths, k=1)
+    k = 1
+    results_k1 = [processor.process_track(
+        file_paths, k, track) for track in sample_playlist.tracks]
     assert all(len(r.rgbs) == 1 for r in results_k1)
     assert all(len(r.hsvs) == 1 for r in results_k1)
 
     # Test with k=5
-    results_k5 = processor.process_playlist(file_paths, k=5)
+    k = 5
+    results_k5 = [processor.process_track(
+        file_paths, k, track) for track in sample_playlist.tracks]
     # Note: k-means may return fewer clusters if there aren't enough distinct colours
     assert all(len(r.rgbs) >= 1 and len(r.rgbs) <= 5 for r in results_k5)
     assert all(len(r.hsvs) >= 1 and len(r.hsvs) <= 5 for r in results_k5)
-
-
-def test_process_images_with_corrupted_image(temp_dir, sample_playlist, create_test_image):
-    """Test that corrupted images are flagged but processing continues."""
-    file_paths = FilePaths(temp_dir)
-    # Save playlist.json
-    playlist_path = file_paths.playlist_path()
-    sample_playlist.to_json(playlist_path)
-
-    # Create valid images for track1 and track3
-    create_test_image(file_paths.track_image_path("track1"),
-                      colours=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
-    create_test_image(file_paths.track_image_path("track3"),
-                      colours=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
-
-    # Create corrupted image for track2
-    corrupted_path = file_paths.track_image_path("track2")
-    with open(corrupted_path, "w") as f:
-        f.write("This is not a valid JPEG file")
-
-    processor = ImageProcessor()
-    results = processor.process_playlist(file_paths, k=3)
-
-    # Verify all tracks are in results
-    assert len(results) == 3
-
-    # Check track2 has an error
-    track2_result = next(r for r in results if r.track_id == "track2")
-    assert track2_result.error is not None
-    assert len(track2_result.rgbs) == 0
-    assert len(track2_result.hsvs) == 0
-
-    # Check track1 and track3 processed successfully
-    track1_result = next(r for r in results if r.track_id == "track1")
-    track3_result = next(r for r in results if r.track_id == "track3")
-
-    assert track1_result.error is None
-    assert len(track1_result.rgbs) >= 1
-    assert len(track1_result.hsvs) >= 1
-
-    assert track3_result.error is None
-    assert len(track3_result.rgbs) >= 1
-    assert len(track3_result.hsvs) >= 1
 
 
 def test_image_colour_data_serialization():
