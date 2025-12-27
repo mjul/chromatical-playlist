@@ -1,5 +1,6 @@
 """Playlist sorting by dominant colour hue."""
 
+import html
 import json
 
 from chromalist.files import FilePaths
@@ -95,7 +96,8 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
     images_md_path = file_paths.sorted_playlist_images_markdown_path()
     with open(images_md_path, "w") as f:
         for track in sortable_tracks:
+            alt_text = f"{track.name} ({track.artist})"
             f.write(
-                f'<img src="{track.album_art_url}" alt="{track.name} ({track.artist})" width="64" height="64">\n')
+                f'<img src="{track.album_art_url}" alt="{html.escape(alt_text)}" width="64" height="64" data-trackid="{track.id}">\n')
 
     return sorted_playlist, len(excluded_tracks)
