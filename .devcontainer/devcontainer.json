@@ -24,7 +24,7 @@
             }
         }
     },
-    "postCreateCommand": "uv python install 3.14 && uv sync",
+    "postCreateCommand": "sudo chown -R vscode:vscode .venv || true && uv python install 3.14 && uv sync",
     "mounts": [
         "source=${localWorkspaceFolderBasename}-venv,target=${containerWorkspaceFolder}/.venv,type=volume"
     ],
