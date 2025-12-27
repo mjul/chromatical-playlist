@@ -3,6 +3,7 @@ from pathlib import Path
 import typer
 from typing_extensions import Annotated
 
+from chromalist.files import FilePaths
 from chromalist.image_processing import ImageProcessor
 from chromalist.spotify_client import SpotifyClient
 
@@ -31,6 +32,7 @@ def get_playlist(
     """
     # Create output directory if it doesn't exist
     output_dir.mkdir(parents=True, exist_ok=True)
+    file_paths = FilePaths(output_dir)
 
     typer.echo(f"📡 Fetching playlist: {playlist_id}")
 
@@ -46,8 +48,8 @@ def get_playlist(
         f"✅ Found playlist: '{playlist.name}' with {len(playlist.tracks)} tracks")
 
     # Save playlist metadata
-    playlist_file = output_dir / "playlist.json"
-    playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    playlist.to_json(playlist_file)
     typer.echo(f"💾 Saved playlist metadata to {playlist_file}")
 
     # Download album art for each track
@@ -58,7 +60,7 @@ def get_playlist(
             if track.album_art_url:
                 try:
                     client.download_album_art(
-                        track.id, track.album_art_url, output_dir)
+                        track.id, track.album_art_url, file_paths)
                 except Exception as e:
                     typer.echo(
                         f"\n⚠️  Warning: Failed to download art for '{track.name}': {e}", err=True)
@@ -89,10 +91,12 @@ def process_images(
             "Please run 'get-playlist' first to download playlist data.", err=True)
         raise typer.Exit(code=1)
 
+    file_paths = FilePaths(output_dir)
+
     # Process images
     try:
         processor = ImageProcessor()
-        results = processor.process_playlist(output_dir, k=k)
+        results = processor.process_playlist(file_paths, k=k)
     except FileNotFoundError as e:
         typer.echo(f"❌ Error: {e}", err=True)
         raise typer.Exit(code=1)
@@ -111,7 +115,7 @@ def process_images(
             f"⚠️  {error_count} image(s) had processing errors (see image-colours.json)")
 
     # Save results to JSON
-    output_file = output_dir / "image-colours.json"
+    output_file = file_paths.image_colours_path()
     try:
         with open(output_file, "w") as f:
             json.dump([r.to_dict() for r in results], f, indent=2)
@@ -145,8 +149,10 @@ def generate_sorted_playlist(
         )
         raise typer.Exit(code=1)
 
+    file_paths = FilePaths(output_dir)
+
     try:
-        sorted_playlist, excluded_count = sort_playlist_by_hue(output_dir)
+        sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
         typer.echo(f"✅ Sorted {len(sorted_playlist.tracks)} tracks by hue")
 
@@ -155,7 +161,7 @@ def generate_sorted_playlist(
                 f"⚠️  Excluded {excluded_count} track(s) without valid color data"
             )
 
-        output_file = output_dir / "sorted-playlist.json"
+        output_file = file_paths.sorted_playlist_path()
         typer.echo(f"💾 Saved sorted playlist to {output_file}")
 
     except FileNotFoundError as e:

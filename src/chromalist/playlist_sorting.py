@@ -3,14 +3,15 @@
 import json
 from pathlib import Path
 
+from chromalist.files import FilePaths
 from chromalist.models import ImageColorData, Playlist
 
 
-def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
+def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
     """
     Sort a playlist by the hue of the dominant color in album cover art.
 
-    Reads playlist.json and image-colours.json from output_dir, sorts tracks
+    Reads playlist.json and image-colours.json from file_paths, sorts tracks
     by the hue component (0-360°) of the most dominant color, and writes
     the sorted playlist to sorted-playlist.json.
 
@@ -18,7 +19,7 @@ def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
     from the sorted output.
 
     Args:
-        output_dir: Directory containing playlist.json and image-colours.json
+        file_paths: FilePaths instance for managing paths
 
     Returns:
         Tuple of (sorted_playlist, excluded_count) where excluded_count is the
@@ -29,14 +30,14 @@ def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
         json.JSONDecodeError: If JSON files are malformed
     """
     # Validate input files exist
-    playlist_path = output_dir / "playlist.json"
+    playlist_path = file_paths.playlist_path()
     if not playlist_path.exists():
         raise FileNotFoundError(
             f"Playlist file not found: {playlist_path}\n"
             "Please run 'get-playlist' first to download playlist data."
         )
 
-    colors_path = output_dir / "image-colours.json"
+    colors_path = file_paths.image_colours_path()
     if not colors_path.exists():
         raise FileNotFoundError(
             f"Image colors file not found: {colors_path}\n"
@@ -44,7 +45,7 @@ def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
         )
 
     # Load playlist
-    playlist = Playlist.from_json(str(playlist_path))
+    playlist = Playlist.from_json(playlist_path)
 
     # Load color data
     with open(colors_path, "r") as f:
@@ -88,11 +89,11 @@ def sort_playlist_by_hue(output_dir: Path) -> tuple[Playlist, int]:
     )
 
     # Write sorted playlist to output file
-    output_path = output_dir / "sorted-playlist.json"
-    sorted_playlist.to_json(str(output_path))
+    output_path = file_paths.sorted_playlist_path()
+    sorted_playlist.to_json(output_path)
 
     # Write a list of the images as markdown (so we can show them in the README)
-    images_md_path = output_dir / "sorted-playlist-images.md"
+    images_md_path = file_paths.sorted_playlist_images_markdown_path()
     with open(images_md_path, "w") as f:
         for track in sortable_tracks:
             f.write(

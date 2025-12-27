@@ -4,6 +4,7 @@ import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
+from chromalist.files import FilePaths
 from chromalist.models import Playlist, Track
 
 
@@ -79,13 +80,13 @@ class SpotifyClient:
 
         return playlist
 
-    def download_album_art(self, track_id: str, image_url: str, output_path: Path) -> None:
+    def download_album_art(self, track_id: str, image_url: str, file_paths: FilePaths) -> None:
         """Download album art image and save to file.
 
         Args:
             track_id: Spotify track ID (used for filename)
             image_url: URL of the album art image
-            output_path: Directory to save the image
+            file_paths: FilePaths instance for managing paths
 
         Raises:
             requests.RequestException: If download fails
@@ -97,6 +98,6 @@ class SpotifyClient:
         response.raise_for_status()
 
         # Save as JPEG
-        filepath = output_path / f"{track_id}.jpg"
+        filepath = file_paths.track_image_path(track_id)
         with open(filepath, "wb") as f:
             f.write(response.content)

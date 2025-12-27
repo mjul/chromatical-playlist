@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+from chromalist.files import FilePaths
 from chromalist.models import Playlist
 from chromalist.spotify_client import SpotifyClient
 
@@ -183,6 +184,7 @@ def test_get_playlist_pagination(mock_spotify_client):
 
 def test_download_album_art_success(mock_spotify_client, tmp_path):
     """Test successfully downloading album art."""
+    file_paths = FilePaths(tmp_path)
     mock_response = Mock()
     mock_response.content = b"fake_image_data"
 
@@ -190,28 +192,30 @@ def test_download_album_art_success(mock_spotify_client, tmp_path):
         mock_spotify_client.download_album_art(
             "track123",
             "http://example.com/image.jpg",
-            tmp_path
+            file_paths
         )
 
     # Verify file was created
-    output_file = tmp_path / "track123.jpg"
+    output_file = file_paths.track_image_path("track123")
     assert output_file.exists()
     assert output_file.read_bytes() == b"fake_image_data"
 
 
 def test_download_album_art_empty_url(mock_spotify_client, tmp_path):
     """Test that empty URL is handled gracefully."""
+    file_paths = FilePaths(tmp_path)
     # Should not raise an error, just return early
-    mock_spotify_client.download_album_art("track123", "", tmp_path)
+    mock_spotify_client.download_album_art("track123", "", file_paths)
 
     # No file should be created
-    output_file = tmp_path / "track123.jpg"
+    output_file = file_paths.track_image_path("track123")
     assert not output_file.exists()
 
 
 def test_download_album_art_network_error(mock_spotify_client, tmp_path):
     """Test handling of network errors during download."""
     import requests
+    file_paths = FilePaths(tmp_path)
 
     with patch("chromalist.spotify_client.requests.get") as mock_get:
         mock_get.side_effect = requests.RequestException("Network error")
@@ -220,5 +224,5 @@ def test_download_album_art_network_error(mock_spotify_client, tmp_path):
             mock_spotify_client.download_album_art(
                 "track123",
                 "http://example.com/image.jpg",
-                tmp_path
+                file_paths
             )

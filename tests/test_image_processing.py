@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
+from chromalist.files import FilePaths
 from chromalist.image_processing import ImageProcessor
 from chromalist.models import ImageColorData, Playlist, Track
 
@@ -85,19 +86,20 @@ def test_process_images_missing_directory():
     """Test that processing fails when output directory doesn't exist."""
     processor = ImageProcessor()
     nonexistent_dir = Path("/nonexistent/directory")
-
-    with pytest.raises(FileNotFoundError) as exc_info:
-        processor.process_playlist(nonexistent_dir)
-
-    assert "Playlist file not found" in str(exc_info.value)
+    # We can't even instantiate FilePaths if the dir doesn't exist
+    with pytest.raises(FileNotFoundError):
+        FilePaths(nonexistent_dir)
 
 
 def test_process_images_missing_playlist_json(temp_dir):
     """Test that processing fails when playlist.json is missing."""
     processor = ImageProcessor()
+    file_paths = FilePaths(temp_dir)
 
     with pytest.raises(FileNotFoundError) as exc_info:
-        processor.process_playlist(temp_dir)
+        processor.process_playlist(file_paths)
+
+    assert "Playlist file not found" in str(exc_info.value)
 
     assert "Playlist file not found" in str(exc_info.value)
     assert "get-playlist" in str(exc_info.value)
@@ -105,14 +107,15 @@ def test_process_images_missing_playlist_json(temp_dir):
 
 def test_process_images_missing_image_files(temp_dir, sample_playlist):
     """Test that processing fails when image files are missing."""
+    file_paths = FilePaths(temp_dir)
     # Save playlist.json but don't create image files
-    playlist_path = temp_dir / "playlist.json"
-    sample_playlist.to_json(str(playlist_path))
+    playlist_path = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_path)
 
     processor = ImageProcessor()
 
     with pytest.raises(FileNotFoundError) as exc_info:
-        processor.process_playlist(temp_dir)
+        processor.process_playlist(file_paths)
 
     assert "Missing 3 image file(s)" in str(exc_info.value)
     assert "get-playlist" in str(exc_info.value)
@@ -120,23 +123,24 @@ def test_process_images_missing_image_files(temp_dir, sample_playlist):
 
 def test_process_images_success(temp_dir, sample_playlist, create_test_image):
     """Test successful image processing with all files present."""
+    file_paths = FilePaths(temp_dir)
     # Save playlist.json
-    playlist_path = temp_dir / "playlist.json"
-    sample_playlist.to_json(str(playlist_path))
+    playlist_path = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_path)
 
     # Create test images with multiple colors
-    create_test_image(temp_dir / "track1.jpg",
+    create_test_image(file_paths.track_image_path("track1"),
                       # Red shades
                       colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
-    create_test_image(temp_dir / "track2.jpg",
+    create_test_image(file_paths.track_image_path("track2"),
                       # Green shades
                       colors=[(0, 255, 0), (0, 200, 0), (0, 150, 0)])
-    create_test_image(temp_dir / "track3.jpg",
+    create_test_image(file_paths.track_image_path("track3"),
                       # Blue shades
                       colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
 
     processor = ImageProcessor()
-    results = processor.process_playlist(temp_dir, k=3)
+    results = processor.process_playlist(file_paths, k=3)
 
     # Verify results
     assert len(results) == 3
@@ -171,27 +175,28 @@ def test_process_images_success(temp_dir, sample_playlist, create_test_image):
 
 def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_image):
     """Test image processing with different k values."""
+    file_paths = FilePaths(temp_dir)
     # Save playlist.json
-    playlist_path = temp_dir / "playlist.json"
-    sample_playlist.to_json(str(playlist_path))
+    playlist_path = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_path)
 
     # Create test images with multiple distinct colors
-    create_test_image(temp_dir / "track1.jpg",
+    create_test_image(file_paths.track_image_path("track1"),
                       colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0), (100, 0, 0), (50, 0, 0)])
-    create_test_image(temp_dir / "track2.jpg",
+    create_test_image(file_paths.track_image_path("track2"),
                       colors=[(0, 255, 0), (0, 200, 0), (0, 150, 0), (0, 100, 0), (0, 50, 0)])
-    create_test_image(temp_dir / "track3.jpg",
+    create_test_image(file_paths.track_image_path("track3"),
                       colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150), (0, 0, 100), (0, 0, 50)])
 
     processor = ImageProcessor()
 
     # Test with k=1
-    results_k1 = processor.process_playlist(temp_dir, k=1)
+    results_k1 = processor.process_playlist(file_paths, k=1)
     assert all(len(r.rgbs) == 1 for r in results_k1)
     assert all(len(r.hsvs) == 1 for r in results_k1)
 
     # Test with k=5
-    results_k5 = processor.process_playlist(temp_dir, k=5)
+    results_k5 = processor.process_playlist(file_paths, k=5)
     # Note: k-means may return fewer clusters if there aren't enough distinct colors
     assert all(len(r.rgbs) >= 1 and len(r.rgbs) <= 5 for r in results_k5)
     assert all(len(r.hsvs) >= 1 and len(r.hsvs) <= 5 for r in results_k5)
@@ -199,23 +204,24 @@ def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_
 
 def test_process_images_with_corrupted_image(temp_dir, sample_playlist, create_test_image):
     """Test that corrupted images are flagged but processing continues."""
+    file_paths = FilePaths(temp_dir)
     # Save playlist.json
-    playlist_path = temp_dir / "playlist.json"
-    sample_playlist.to_json(str(playlist_path))
+    playlist_path = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_path)
 
     # Create valid images for track1 and track3
-    create_test_image(temp_dir / "track1.jpg",
+    create_test_image(file_paths.track_image_path("track1"),
                       colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
-    create_test_image(temp_dir / "track3.jpg",
+    create_test_image(file_paths.track_image_path("track3"),
                       colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
 
     # Create corrupted image for track2
-    corrupted_path = temp_dir / "track2.jpg"
+    corrupted_path = file_paths.track_image_path("track2")
     with open(corrupted_path, "w") as f:
         f.write("This is not a valid JPEG file")
 
     processor = ImageProcessor()
-    results = processor.process_playlist(temp_dir, k=3)
+    results = processor.process_playlist(file_paths, k=3)
 
     # Verify all tracks are in results
     assert len(results) == 3

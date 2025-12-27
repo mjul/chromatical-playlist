@@ -4,6 +4,7 @@ import json
 
 import pytest
 
+from chromalist.files import FilePaths
 from chromalist.models import ImageColorData, Playlist, Track
 from chromalist.playlist_sorting import sort_playlist_by_hue
 
@@ -73,12 +74,13 @@ def sample_color_data():
 
 def test_sort_playlist_missing_playlist_file(tmp_path):
     """Test that missing playlist.json raises FileNotFoundError."""
+    file_paths = FilePaths(tmp_path)
     # Create colors file but not playlist
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     colors_file.write_text("[]")
 
     with pytest.raises(FileNotFoundError) as exc_info:
-        sort_playlist_by_hue(tmp_path)
+        sort_playlist_by_hue(file_paths)
 
     assert "playlist.json" in str(exc_info.value).lower()
     assert "get-playlist" in str(exc_info.value).lower()
@@ -86,12 +88,13 @@ def test_sort_playlist_missing_playlist_file(tmp_path):
 
 def test_sort_playlist_missing_colors_file(tmp_path, sample_playlist):
     """Test that missing image-colours.json raises FileNotFoundError."""
+    file_paths = FilePaths(tmp_path)
     # Create playlist file but not colors
-    playlist_file = tmp_path / "playlist.json"
-    sample_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_file)
 
     with pytest.raises(FileNotFoundError) as exc_info:
-        sort_playlist_by_hue(tmp_path)
+        sort_playlist_by_hue(file_paths)
 
     assert "image-colours.json" in str(exc_info.value).lower()
     assert "process-images" in str(exc_info.value).lower()
@@ -99,19 +102,20 @@ def test_sort_playlist_missing_colors_file(tmp_path, sample_playlist):
 
 def test_sort_playlist_success(tmp_path, sample_playlist, sample_color_data):
     """Test successful sorting of playlist by hue."""
+    file_paths = FilePaths(tmp_path)
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    sample_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([c.to_dict() for c in sample_color_data], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify output file was created
-    output_file = tmp_path / "sorted-playlist.json"
+    output_file = file_paths.sorted_playlist_path()
     assert output_file.exists()
 
     # Verify no tracks were excluded
@@ -134,7 +138,7 @@ def test_sort_playlist_success(tmp_path, sample_playlist, sample_color_data):
     assert sorted_playlist.description == sample_playlist.description
 
     # Verify output file can be read back
-    loaded_playlist = Playlist.from_json(str(output_file))
+    loaded_playlist = Playlist.from_json(output_file)
     assert loaded_playlist.id == sample_playlist.id
     assert len(loaded_playlist.tracks) == 3
 
@@ -143,20 +147,21 @@ def test_sort_playlist_with_missing_color_data(
     tmp_path, sample_playlist, sample_color_data
 ):
     """Test that tracks without color data are excluded from sorted output."""
+    file_paths = FilePaths(tmp_path)
     # Remove color data for one track
     color_data_subset = [
         c for c in sample_color_data if c.track_id != "track_green"]
 
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    sample_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([c.to_dict() for c in color_data_subset], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify one track was excluded
     assert excluded_count == 1
@@ -173,20 +178,21 @@ def test_sort_playlist_with_error_in_color_data(
     tmp_path, sample_playlist, sample_color_data
 ):
     """Test that tracks with errors in color extraction are excluded."""
+    file_paths = FilePaths(tmp_path)
     # Set error on one track
     sample_color_data[1].error = "Failed to process image"
     sample_color_data[1].hsvs = []
 
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    sample_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    sample_playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([c.to_dict() for c in sample_color_data], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify one track was excluded
     assert excluded_count == 1
@@ -199,6 +205,7 @@ def test_sort_playlist_with_error_in_color_data(
 
 def test_sort_playlist_empty_playlist(tmp_path):
     """Test sorting an empty playlist."""
+    file_paths = FilePaths(tmp_path)
     empty_playlist = Playlist(
         id="empty_playlist",
         name="Empty Playlist",
@@ -207,15 +214,15 @@ def test_sort_playlist_empty_playlist(tmp_path):
     )
 
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    empty_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    empty_playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify results
     assert excluded_count == 0
@@ -225,6 +232,7 @@ def test_sort_playlist_empty_playlist(tmp_path):
 
 def test_sort_playlist_single_track(tmp_path):
     """Test sorting a playlist with a single track."""
+    file_paths = FilePaths(tmp_path)
     single_track_playlist = Playlist(
         id="single_playlist",
         name="Single Track",
@@ -250,15 +258,15 @@ def test_sort_playlist_single_track(tmp_path):
     ]
 
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    single_track_playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    single_track_playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([c.to_dict() for c in color_data], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify results
     assert excluded_count == 0
@@ -269,6 +277,7 @@ def test_sort_playlist_single_track(tmp_path):
 
 def test_sort_playlist_hue_order(tmp_path):
     """Test that tracks are sorted correctly across the full hue spectrum."""
+    file_paths = FilePaths(tmp_path)
     # Create playlist with tracks spanning the hue spectrum
     playlist = Playlist(
         id="spectrum_playlist",
@@ -322,15 +331,15 @@ def test_sort_playlist_hue_order(tmp_path):
     ]
 
     # Write input files
-    playlist_file = tmp_path / "playlist.json"
-    playlist.to_json(str(playlist_file))
+    playlist_file = file_paths.playlist_path()
+    playlist.to_json(playlist_file)
 
-    colors_file = tmp_path / "image-colours.json"
+    colors_file = file_paths.image_colours_path()
     with open(colors_file, "w") as f:
         json.dump([c.to_dict() for c in color_data], f)
 
     # Sort playlist
-    sorted_playlist, excluded_count = sort_playlist_by_hue(tmp_path)
+    sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
 
     # Verify correct order: orange (30°) < yellow (60°) < cyan (180°) < magenta (300°)
     assert len(sorted_playlist.tracks) == 4

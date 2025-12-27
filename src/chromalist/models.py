@@ -49,13 +49,13 @@ class Playlist:
             tracks=tracks,
         )
 
-    def to_json(self, filepath: str) -> None:
+    def to_json(self, filepath: str | Path) -> None:
         """Save playlist to JSON file."""
         with open(filepath, "w") as f:
             json.dump(self.to_dict(), f, indent=2)
 
     @classmethod
-    def from_json(cls, filepath: str) -> "Playlist":
+    def from_json(cls, filepath: str | Path) -> "Playlist":
         """Load playlist from JSON file."""
         with open(filepath, "r") as f:
             data = json.load(f)

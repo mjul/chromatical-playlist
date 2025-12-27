@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from scipy.cluster.vq import kmeans
 
+from chromalist.files import FilePaths
 from chromalist.models import ImageColorData, Playlist
 
 
@@ -12,11 +13,11 @@ class ImageProcessor:
     def __init__(self):
         pass
 
-    def validate_files(self, output_dir: Path, playlist: Playlist) -> None:
+    def validate_files(self, file_paths: FilePaths, playlist: Playlist) -> None:
         """Validate that all required image files exist.
 
         Args:
-            output_dir: Directory containing the images
+            file_paths: FilePaths instance for managing paths
             playlist: Playlist object with track information
 
         Raises:
@@ -24,7 +25,7 @@ class ImageProcessor:
         """
         missing_files = []
         for track in playlist.tracks:
-            image_path = output_dir / f"{track.id}.jpg"
+            image_path = file_paths.track_image_path(track.id)
             if not image_path.exists():
                 missing_files.append(str(image_path))
 
@@ -84,11 +85,11 @@ class ImageProcessor:
 
         return rgb_colors, hsv_colors
 
-    def process_playlist(self, output_dir: Path, k: int = 3) -> list[ImageColorData]:
+    def process_playlist(self, file_paths: FilePaths, k: int = 3) -> list[ImageColorData]:
         """Process all images in a playlist to extract dominant colors.
 
         Args:
-            output_dir: Directory containing playlist.json and image files
+            file_paths: FilePaths instance for managing paths
             k: Number of dominant colors to extract per image
 
         Returns:
@@ -98,22 +99,22 @@ class ImageProcessor:
             FileNotFoundError: If playlist.json or any image files are missing
         """
         # Load playlist
-        playlist_path = output_dir / "playlist.json"
+        playlist_path = file_paths.playlist_path()
         if not playlist_path.exists():
             raise FileNotFoundError(
                 f"Playlist file not found: {playlist_path}\n"
                 "Please run 'get-playlist' first to download playlist data."
             )
 
-        playlist = Playlist.from_json(str(playlist_path))
+        playlist = Playlist.from_json(playlist_path)
 
         # Validate all image files exist
-        self.validate_files(output_dir, playlist)
+        self.validate_files(file_paths, playlist)
 
         # Process each track's image
         results = []
         for track in playlist.tracks:
-            image_path = output_dir / f"{track.id}.jpg"
+            image_path = file_paths.track_image_path(track.id)
 
             try:
                 rgbs, hsvs = self.extract_colors(image_path, k)
