@@ -1,9 +1,9 @@
-# Chromatographic Playlist
+# Chromatical Playlist
 
 Many years ago I heard about a moving picture about people in a record shop. Perhaps it was _High Fidelity_. For some reason I understood that one of the 
-characters sorted his music albums chromatographically, so thought that was a novel idea. I have since learned that this was not the case in that movie, but then again, why not?
+characters sorted his music albums chromatically, so I thought that was a novel idea. I have since learned that this was not the case in that movie, but then again, why not?
 
-So here it is, a tool to sort your playlists chromotographically by album cover art.
+So here it is, a tool to sort your playlists chromatically by album cover art colour tone.
 
 ## Quick Start
 
@@ -25,7 +25,8 @@ uv run pytest
 - get the album cover art for each song
 - use the _k-means clustering_ algorithm to extract the dominant _k_ colours from the cover image
 - map the top colour to HSV colour space, and use the Hue component as a unidimensional scalar we can sort by
-- emit the chromatographically sorted playlist
+- for the achromatic images (greyscale), we sort them separately by brightness
+- emit the chromatically sorted playlist
 
 ## Implementation
 
