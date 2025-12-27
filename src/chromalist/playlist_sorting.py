@@ -52,7 +52,7 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
         colours_data_raw = json.load(f)
 
     # Parse colour data into ImageColourData objects and create track_id -> hue mapping
-    sort_keys: dict[str, (float, float)] = {}
+    sort_keys: dict[str, tuple[int | float, int | float]] = {}
     for item in colours_data_raw:
         colour_data = ImageColourData.from_dict(item)
 
