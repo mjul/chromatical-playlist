@@ -128,9 +128,9 @@ def test_sort_playlist_success(tmp_path, sample_playlist, sample_color_data):
     assert sorted_playlist.tracks[2].id == "track_blue"
 
     # Verify hue values were populated
-    assert sorted_playlist.tracks[0].hue == 0.0
-    assert sorted_playlist.tracks[1].hue == 120.0
-    assert sorted_playlist.tracks[2].hue == 240.0
+    assert sorted_playlist.tracks[0].sort_key == (0,0.0)
+    assert sorted_playlist.tracks[1].sort_key == (0,120.0)
+    assert sorted_playlist.tracks[2].sort_key == (0,240.0)
 
     # Verify playlist metadata is preserved
     assert sorted_playlist.id == sample_playlist.id
@@ -272,7 +272,7 @@ def test_sort_playlist_single_track(tmp_path):
     assert excluded_count == 0
     assert len(sorted_playlist.tracks) == 1
     assert sorted_playlist.tracks[0].id == "track_1"
-    assert sorted_playlist.tracks[0].hue == 270.0
+    assert sorted_playlist.tracks[0].sort_key == (0,270.0)
 
 
 def test_sort_playlist_hue_order(tmp_path):
@@ -349,7 +349,7 @@ def test_sort_playlist_hue_order(tmp_path):
     assert sorted_playlist.tracks[3].id == "track_magenta"
 
     # Verify hue values are correct
-    assert sorted_playlist.tracks[0].hue == 30.0
-    assert sorted_playlist.tracks[1].hue == 60.0
-    assert sorted_playlist.tracks[2].hue == 180.0
-    assert sorted_playlist.tracks[3].hue == 300.0
+    assert sorted_playlist.tracks[0].sort_key == (0,30.0)
+    assert sorted_playlist.tracks[1].sort_key == (0,60.0)
+    assert sorted_playlist.tracks[2].sort_key == (0,180.0)
+    assert sorted_playlist.tracks[3].sort_key == (0,300.0)
