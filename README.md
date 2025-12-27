@@ -307,3 +307,121 @@ So, if we let run Top Hits 1980-1990, playlist ID `1o5JatfgL3F34icBqTynSk` it so
 <img src="https://i.scdn.co/image/ab67616d0000b2734f7420eec423c20556744d7d" alt="Tell It to My Heart (Taylor Dayne)" width="64" height="64">
 <img src="https://i.scdn.co/image/ab67616d0000b27354c5b44fb18030a3385c7b88" alt="Say Say Say (Paul McCartney)" width="64" height="64">
 <img src="https://i.scdn.co/image/ab67616d0000b273ce32b2f1b4b9e2f1c68f84cc" alt="We Didn't Start the Fire (Billy Joel)" width="64" height="64">
+
+### BRITPOP: 100 best songs
+https://open.spotify.com/playlist/0O31LAgwwraj2CExjqqZSx
+
+Playlist ID `0O31LAgwwraj2CExjqqZSx`
+
+<img src="https://i.scdn.co/image/ab67616d0000b2739164bafe9aaa168d93f4816a" alt="Yellow (Coldplay)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27310d91fae4e9d2b0a2d758060" alt="Can You Dig It? (The Mock Turtles)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273bd8d27544ccf850e5b0d6f0b" alt="This Is How It Feels (Inspiral Carpets)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b898b548c5c60cfe1206a772" alt="Three Lions (Football's Coming Home) (Baddiel, Skinner & Lightning Seeds)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273009e277693241201a82ed486" alt="Sparky's Dream (Teenage Fanclub)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2739c68d6c16a9121a08a0c28e9" alt="Blinded By The Sun (The Seahorses)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2733594e35c6b023eb82e235953" alt="Sometimes (James)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b1ec5185789c1629351de33d" alt="Just Another Rainbow (Liam Gallagher)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730e47adf6052f3a1b05c958c1" alt="Gravity (Embrace)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273e4162b6b6cb0b24ec845018a" alt="The Only One I Know (The Charlatans)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2739c72b249fcaa04d074c1dfcd" alt="Friday I'm In Love (The Cure)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2731b5c06982d105c8b6b08d041" alt="For Love (Lush)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273cbea7e7a20a9df4b22dc5148" alt="Love Is All Around - From "Four Weddings And A Funeral" (Wet Wet Wet)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b67dbb84e0c1f82be886c8ea" alt="Laid (James)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ece7df13dbc6f1ba88c5a1ad" alt="Animal Nitrate (Suede)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ece7df13dbc6f1ba88c5a1ad" alt="Metal Mickey (Suede)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a85e2d460874afa804b07807" alt="Chasing Rainbows (Shed Seven)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a85e2d460874afa804b07807" alt="Chasing Rainbows (Shed Seven)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b6aeeb6414c5d3ddac43be2a" alt="Leave Them All Behind - 2001 Remaster (Ride)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27350fadb5f91ef4accf5d96544" alt="Govinda (Kula Shaker)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273593b4d24c3b4eb501279bbc6" alt="Patio Song (Gorky's Zygotic Mynci)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27394983882a5effd77742a9f52" alt="Tender (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2739293c743fa542094336c5e12" alt="Fake Plastic Trees (Radiohead)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27398d2b5f9e0c3d00e6bc423da" alt="Walkaway (Cast)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27372d481a5999197ef5f42f796" alt="Zombie (The Cranberries)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a5ef992caf2355282a9d4c6b" alt="National Express (The Divine Comedy)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732951c50b6cfcf7e0e26279aa" alt="Why Does It Always Rain On Me? (Travis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2736d7b8671cfcf7f914c741a72" alt="Lenny Valentino (The Auteurs)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732951c50b6cfcf7e0e26279aa" alt="Driftwood (Travis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2736d7b8671cfcf7f914c741a72" alt="New French Girlfriend (The Auteurs)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273de114203356c1f7b136960b6" alt="Beetlebum - 2012 Remaster (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2737f04eef099ddb5c34a1f3afc" alt="Parklife - 2012 Remaster (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273d86a1e021e7acc7c07c7d668" alt="Live Forever - Remastered (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273d86a1e021e7acc7c07c7d668" alt="Supersonic - Remastered (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730a7d1e9face30d0357e21dcd" alt="Do You Remember The First Time? (Pulp)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730a7d1e9face30d0357e21dcd" alt="Lipgloss (Pulp)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ec548c00d3ac2f10be73366d" alt="Creep (Radiohead)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273cd17a643be6e98617af3d87a" alt="Hush (Kula Shaker)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c038b03e66fb6de76a5b3904" alt="The Drugs Don't Work (The Verve)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c038b03e66fb6de76a5b3904" alt="Lucky Man (The Verve)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27312d78ae76a8b2d7a1c2f593d" alt="Good Enough (Dodgy)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27343563ea094f0ea99f5d84583" alt="Whatever (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27361c4e50faedd1482b89de850" alt="Staying Out For The Summer (Dodgy)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27354a78359ef17a590ab24256c" alt="Beautiful Ones (Suede)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27354a78359ef17a590ab24256c" alt="Trash (Suede)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273093f37d1e0d111c33096d3e9" alt="Kelly's Heroes (Black Grape)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738609a2ac949cf0bf0f183def" alt="The Last of the Famous International Playboys - 2010 Remaster (Morrissey)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273fa15f99bdd335ddc8f588242" alt="Girl From Mars (Ash)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b5f24b5004d008f05b0cb148" alt="Motorcycle Emptiness (Manic Street Preachers)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273707d13d3f87652e737e94d45" alt="Bitter Sweet Symphony - Remastered 2016 (The Verve)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273707d13d3f87652e737e94d45" alt="Sonnet (The Verve)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ce0e813b2e3c71fcaa5005b7" alt="Tubthumping (Chumbawamba)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273cf1f6466a493eb73d6d9d280" alt="I Wanna Be Adored - Remastered 2009 (The Stone Roses)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273cf1f6466a493eb73d6d9d280" alt="She Bangs the Drums - Remastered 2009 (The Stone Roses)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273671c709e025a3ed8c956d115" alt="Have A Nice Day (Stereophonics)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738b88d0f28103db8071d67191" alt="Slight Return (The Bluetones)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27357b41d7e2ef3e9903aa21b75" alt="Moving (Supergrass)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27357b41d7e2ef3e9903aa21b75" alt="Pumping On Your Stereo (Supergrass)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a9b827f16c08362301d332fc" alt="The Boy With the Arab Strap (Belle and Sebastian)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2739b643c1d962bfdb276598876" alt="One to Another (The Charlatans)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c313153da427c8d0f3cf9179" alt="Spaceman (Babylon Zoo)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273326f28b8d0099329cecb01c8" alt="If You Tolerate This Your Children Will Be Next (Manic Street Preachers)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273326f28b8d0099329cecb01c8" alt="You Stole the Sun from My Heart (Manic Street Preachers)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273ecdb914ea9cbbb31c5a6b71b" alt="Dakota (Stereophonics)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732f2eeee9b405f4d00428d84c" alt="Don't Look Back In Anger (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732f2eeee9b405f4d00428d84c" alt="Wonderwall (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732f2eeee9b405f4d00428d84c" alt="Champagne Supernova (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273f6d0dd7232e493681a4dd230" alt="Perfect 10 (The Beautiful South)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2732f2eeee9b405f4d00428d84c" alt="Some Might Say (Oasis)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738a9c1b058c215b14983e0725" alt="There She Goes (The La's)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2734464fd26a7b4be42675876ac" alt="Road Rage (Catatonia)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273b3fb824e9730591fe4e5b17e" alt="Rotterdam (Or Anywhere) (The Beautiful South)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273fd952bece8f049dbcd7df93f" alt="Common People - Full Length Version (Pulp)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273fd952bece8f049dbcd7df93f" alt="Disco 2000 (Pulp)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273fd952bece8f049dbcd7df93f" alt="Mis-Shapes (Pulp)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738f384040b0e29681ce396fcc" alt="Juxtapozed with U (Super Furry Animals)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2736e2977bd512137598b5e00fc" alt="Nancy Boy (Placebo)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2733d577eba3860affba2f2d334" alt="Ready to Go (Republica)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27334cbf7013afccc7df67fa43f" alt="Country House (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27334cbf7013afccc7df67fa43f" alt="Girls & Boys (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27334cbf7013afccc7df67fa43f" alt="Song 2 (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a4ec4c922ae55defc4668afa" alt="Wake up Boo! (The Boo Radleys)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c51308138d3d02b0ef0c0a1f" alt="King of the Kerb (Echobelly)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c8b444df094279e70d0ed856" alt="Paranoid Android (Radiohead)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2731eddfa59f1758ab46ad19ce1" alt="Saturn 5 (Inspiral Carpets)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273c9ab72e50682b061dd318604" alt="Lucky You (The Lightning Seeds)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273d6edad0d4fc3448ccc61c13c" alt="The Universal - 2012 Remaster (Blur)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2731ba99b34edfc33fb4a9ea5a1" alt="Getting Away With It (All Messed Up) (James)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273d1b2fdf89b885ee6d07cef13" alt="Inbetweener (Sleeper)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2734934e5682e4444406294ab0c" alt="Brimful of Asha - Norman Cook Remix Single Version (Cornershop)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273020eeb90bc55f4a0415eefde" alt="You're Gorgeous (Babybird)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730b13316f2c7d7c916dc675db" alt="Something 4 the Weekend (Super Furry Animals)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2736e6832759078e93b8aff1cdd" alt="Daydreamer (Menswear)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2738f8e24262ca7ef631e62c5f6" alt="A Design for Life - Remastered (Manic Street Preachers)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730d8a62430369b60b0edbc2d1" alt="Olympian (Gene)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2737d2fd2378160e40c96bc61ff" alt="Alright (Supergrass)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273a9f25500062b93a4f36d51be" alt="She Said (Longpigs)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2735ac670b8c48b7446c8aade5e" alt="Connection (Elastica)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2735ac670b8c48b7446c8aade5e" alt="Waking Up (Elastica)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273f6e31941d10e4819d290af41" alt="When the Sun Hits (Slowdive)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273f6325f361d7803ad0d908451" alt="Linger (The Cranberries)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27318f632fef2f6c380c8ba43f5" alt="High (Lighthouse Family)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2733f43a6ff38258274802d6d6a" alt="Ladykillers (Lush)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27334ff27034756cba57c5d19a3" alt="Pure (The Lightning Seeds)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2733521f8507d464f82ac50551d" alt="Ladykillers (Lush)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27351d999a5abe49d96ffd7280b" alt="The Riverboat Song (Ocean Colour Scene)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27351d999a5abe49d96ffd7280b" alt="The Day We Caught The Train (Ocean Colour Scene)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273cf94c56a92750b354c76b437" alt="The Concept (Teenage Fanclub)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b273781ecbc78e1a5f7680eac5d9" alt="All You Good Good People (Embrace)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b2730137f8e79dc60001c2dc5b79" alt="Sit Down (James)" width="64" height="64">
+<img src="https://i.scdn.co/image/ab67616d0000b27339180b45808493a1f687c91d" alt="Movin' on Up (Primal Scream)" width="64" height="64">
+
