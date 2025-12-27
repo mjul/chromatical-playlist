@@ -116,8 +116,6 @@ def test_process_images_process_track_success(temp_dir, sample_playlist, create_
         results.append(processor.process_track(
             file_paths, k, track))
 
-    print(len(results), results)
-
     # Verify results
     assert len(results) == 3
     assert all(isinstance(r, ImageColourData) for r in results)
