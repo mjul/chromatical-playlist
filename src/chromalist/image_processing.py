@@ -59,6 +59,9 @@ class ImageProcessor:
         img = Image.open(image_path)
         img = img.convert("RGB")
 
+        # Resize for faster processing (k-means is linear in pixels)
+        img = img.resize((100, 100))
+
         # Convert to numpy array and reshape to list of pixels
         pixels = np.array(img)
         pixels_reshaped = pixels.reshape(-1, 3)
