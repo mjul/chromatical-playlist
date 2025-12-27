@@ -1,21 +1,20 @@
-"""Playlist sorting by dominant color hue."""
+"""Playlist sorting by dominant colour hue."""
 
 import json
-from pathlib import Path
 
 from chromalist.files import FilePaths
-from chromalist.models import ImageColorData, Playlist
+from chromalist.models import ImageColourData, Playlist
 
 
 def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
     """
-    Sort a playlist by the hue of the dominant color in album cover art.
+    Sort a playlist by the hue of the dominant colour in album cover art.
 
     Reads playlist.json and image-colours.json from file_paths, sorts tracks
-    by the hue component (0-360°) of the most dominant color, and writes
+    by the hue component (0-360°) of the most dominant colour, and writes
     the sorted playlist to sorted-playlist.json.
 
-    Tracks without valid color data (missing or with errors) are excluded
+    Tracks without valid colour data (missing or with errors) are excluded
     from the sorted output.
 
     Args:
@@ -23,7 +22,7 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
 
     Returns:
         Tuple of (sorted_playlist, excluded_count) where excluded_count is the
-        number of tracks that couldn't be sorted due to missing/invalid color data
+        number of tracks that couldn't be sorted due to missing/invalid colour data
 
     Raises:
         FileNotFoundError: If playlist.json or image-colours.json don't exist
@@ -37,32 +36,32 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
             "Please run 'get-playlist' first to download playlist data."
         )
 
-    colors_path = file_paths.image_colours_path()
-    if not colors_path.exists():
+    colours_path = file_paths.image_colours_path()
+    if not colours_path.exists():
         raise FileNotFoundError(
-            f"Image colors file not found: {colors_path}\n"
-            "Please run 'process-images' first to extract color data."
+            f"Image colours file not found: {colours_path}\n"
+            "Please run 'process-images' first to extract colour data."
         )
 
     # Load playlist
     playlist = Playlist.from_json(playlist_path)
 
-    # Load color data
-    with open(colors_path, "r") as f:
-        colors_data_raw = json.load(f)
+    # Load colour data
+    with open(colours_path, "r") as f:
+        colours_data_raw = json.load(f)
 
-    # Parse color data into ImageColorData objects and create track_id -> hue mapping
+    # Parse colour data into ImageColourData objects and create track_id -> hue mapping
     track_hues: dict[str, float] = {}
-    for item in colors_data_raw:
-        color_data = ImageColorData.from_dict(item)
+    for item in colours_data_raw:
+        colour_data = ImageColourData.from_dict(item)
 
-        # Skip tracks with errors or missing color data
-        if color_data.error is not None or not color_data.hsvs:
+        # Skip tracks with errors or missing colour data
+        if colour_data.error is not None or not colour_data.hsvs:
             continue
 
-        # Extract hue from the most dominant color (first in list)
-        hue = color_data.hsvs[0][0]  # First color, first component (hue)
-        track_hues[color_data.track_id] = hue
+        # Extract hue from the most dominant colour (first in list)
+        hue = colour_data.hsvs[0][0]  # First colour, first component (hue)
+        track_hues[colour_data.track_id] = hue
 
     # Separate tracks into sortable and excluded
     sortable_tracks = []

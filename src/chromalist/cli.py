@@ -73,11 +73,11 @@ def get_playlist(
 def process_images(
     output_dir: output_dir_option = Path("tmp"),
     k: Annotated[int, typer.Option(
-        help="Number of dominant colors to extract per image")] = 3,
+        help="Number of dominant colours to extract per image")] = 3,
 ) -> None:
-    """Process images to extract dominant colors.
+    """Process images to extract dominant colours.
 
-    Reads images from output directory and writes color data to image-colours.json.
+    Reads images from output directory and writes colour data to image-colours.json.
     """
     import json
 
@@ -119,7 +119,7 @@ def process_images(
     try:
         with open(output_file, "w") as f:
             json.dump([r.to_dict() for r in results], f, indent=2)
-        typer.echo(f"💾 Saved color data to {output_file}")
+        typer.echo(f"💾 Saved colour data to {output_file}")
     except Exception as e:
         typer.echo(f"❌ Error saving results to {output_file}: {e}", err=True)
         raise typer.Exit(code=1)
@@ -132,7 +132,7 @@ def generate_sorted_playlist(
     """Generate a chromatically sorted playlist.
 
     Reads playlist.json and image-colours.json from output directory,
-    sorts tracks by the hue of their dominant album cover color,
+    sorts tracks by the hue of their dominant album cover colour,
     and writes sorted-playlist.json.
     """
     from chromalist.playlist_sorting import sort_playlist_by_hue
@@ -158,7 +158,7 @@ def generate_sorted_playlist(
 
         if excluded_count > 0:
             typer.echo(
-                f"⚠️  Excluded {excluded_count} track(s) without valid color data"
+                f"⚠️  Excluded {excluded_count} track(s) without valid colour data"
             )
 
         output_file = file_paths.sorted_playlist_path()

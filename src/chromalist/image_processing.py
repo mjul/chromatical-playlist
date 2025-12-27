@@ -6,7 +6,7 @@ from PIL import Image
 from scipy.cluster.vq import kmeans
 
 from chromalist.files import FilePaths
-from chromalist.models import ImageColorData, Playlist
+from chromalist.models import ImageColourData, Playlist
 
 
 class ImageProcessor:
@@ -37,15 +37,15 @@ class ImageProcessor:
                 + (f" and {len(missing_files) - 5} more..." if len(missing_files) > 5 else "")
             )
 
-    def extract_colors(self, image_path: Path, k: int = 3) -> tuple[list[tuple[int, int, int]], list[tuple[float, float, float]]]:
-        """Extract k dominant colors from an image.
+    def extract_colours(self, image_path: Path, k: int = 3) -> tuple[list[tuple[int, int, int]], list[tuple[float, float, float]]]:
+        """Extract k dominant colours from an image.
 
         Args:
             image_path: Path to the image file
-            k: Number of dominant colors to extract
+            k: Number of dominant colours to extract
 
         Returns:
-            Tuple of (RGB color list, HSV color list) sorted by frequency (descending)
+            Tuple of (RGB colour list, HSV colour list) sorted by frequency (descending)
             RGB values are in range 0-255
             HSV values are (H: 0-360, S: 0-100, V: 0-100)
         """
@@ -60,40 +60,40 @@ class ImageProcessor:
         # Convert to float for k-means
         pixels_float = pixels_reshaped.astype(float)
 
-        # Run k-means clustering to find k dominant colors
+        # Run k-means clustering to find k dominant colours
         centroids, _ = kmeans(pixels_float, k)
 
         # Convert centroids back to integers for RGB
-        rgb_colors = [tuple(map(int, centroid)) for centroid in centroids]
+        rgb_colours = [tuple(map(int, centroid)) for centroid in centroids]
 
         # Calculate frequency of each cluster to sort by dominance
         from scipy.cluster.vq import vq
         codes, _ = vq(pixels_float, centroids)
         unique, counts = np.unique(codes, return_counts=True)
 
-        # Sort colors by frequency (descending)
+        # Sort colours by frequency (descending)
         sorted_indices = np.argsort(-counts)
-        rgb_colors = [rgb_colors[i] for i in sorted_indices]
+        rgb_colours = [rgb_colours[i] for i in sorted_indices]
 
         # Convert RGB to HSV
-        hsv_colors = []
-        for r, g, b in rgb_colors:
+        hsv_colours = []
+        for r, g, b in rgb_colours:
             # Normalize RGB to 0-1 for colorsys
             h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
             # Convert to degrees and percentages
-            hsv_colors.append((h * 360, s * 100, v * 100))
+            hsv_colours.append((h * 360, s * 100, v * 100))
 
-        return rgb_colors, hsv_colors
+        return rgb_colours, hsv_colours
 
-    def process_playlist(self, file_paths: FilePaths, k: int = 3) -> list[ImageColorData]:
-        """Process all images in a playlist to extract dominant colors.
+    def process_playlist(self, file_paths: FilePaths, k: int = 3) -> list[ImageColourData]:
+        """Process all images in a playlist to extract dominant colours.
 
         Args:
             file_paths: FilePaths instance for managing paths
-            k: Number of dominant colors to extract per image
+            k: Number of dominant colours to extract per image
 
         Returns:
-            List of ImageColorData objects, one per track
+            List of ImageColourData objects, one per track
 
         Raises:
             FileNotFoundError: If playlist.json or any image files are missing
@@ -118,12 +118,12 @@ class ImageProcessor:
 
         return results
 
-    def proces_track(self, file_paths: FilePaths, k, track) -> ImageColorData:
+    def proces_track(self, file_paths: FilePaths, k, track) -> ImageColourData:
         image_path = file_paths.track_image_path(track.id)
 
         try:
-            rgbs, hsvs = self.extract_colors(image_path, k)
-            result = ImageColorData(
+            rgbs, hsvs = self.extract_colours(image_path, k)
+            result = ImageColourData(
                 track_id=track.id,
                 rgbs=rgbs,
                 hsvs=hsvs,
@@ -131,7 +131,7 @@ class ImageProcessor:
             )
         except Exception as e:
             # Flag error but continue processing
-            result = ImageColorData(
+            result = ImageColourData(
                 track_id=track.id,
                 rgbs=[],
                 hsvs=[],

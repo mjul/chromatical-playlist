@@ -63,14 +63,14 @@ class Playlist:
 
 
 @dataclass
-class ImageColorData:
+class ImageColourData:
     track_id: str
     rgbs: list[tuple[int, int, int]]
     hsvs: list[tuple[float, float, float]]
     error: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        """Convert ImageColorData to dictionary for JSON serialization."""
+        """Convert ImageColourData to dictionary for JSON serialization."""
         return {
             "track_id": self.track_id,
             "rgbs": self.rgbs,
@@ -79,8 +79,8 @@ class ImageColorData:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "ImageColorData":
-        """Create ImageColorData from dictionary."""
+    def from_dict(cls, data: dict[str, Any]) -> "ImageColourData":
+        """Create ImageColourData from dictionary."""
         return cls(
             track_id=data["track_id"],
             rgbs=[tuple(rgb) for rgb in data["rgbs"]],

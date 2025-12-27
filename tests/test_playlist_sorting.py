@@ -5,7 +5,7 @@ import json
 import pytest
 
 from chromalist.files import FilePaths
-from chromalist.models import ImageColorData, Playlist, Track
+from chromalist.models import ImageColourData, Playlist, Track
 from chromalist.playlist_sorting import sort_playlist_by_hue
 
 
@@ -44,17 +44,17 @@ def sample_playlist():
 
 @pytest.fixture
 def sample_color_data():
-    """Create sample color data for 3 tracks with different hues."""
+    """Create sample colour data for 3 tracks with different hues."""
     return [
         # Red: hue ~0°
-        ImageColorData(
+        ImageColourData(
             track_id="track_red",
             rgbs=[(255, 0, 0), (200, 50, 50), (150, 100, 100)],
             hsvs=[(0.0, 100.0, 100.0), (15.0, 75.0, 78.4), (0.0, 33.3, 58.8)],
             error=None,
         ),
         # Green: hue ~120°
-        ImageColorData(
+        ImageColourData(
             track_id="track_green",
             rgbs=[(0, 255, 0), (50, 200, 50), (100, 150, 100)],
             hsvs=[(120.0, 100.0, 100.0),
@@ -62,7 +62,7 @@ def sample_color_data():
             error=None,
         ),
         # Blue: hue ~240°
-        ImageColorData(
+        ImageColourData(
             track_id="track_blue",
             rgbs=[(0, 0, 255), (50, 50, 200), (100, 100, 150)],
             hsvs=[(240.0, 100.0, 100.0),
@@ -76,8 +76,8 @@ def test_sort_playlist_missing_playlist_file(tmp_path):
     """Test that missing playlist.json raises FileNotFoundError."""
     file_paths = FilePaths(tmp_path)
     # Create colors file but not playlist
-    colors_file = file_paths.image_colours_path()
-    colors_file.write_text("[]")
+    colours_file = file_paths.image_colours_path()
+    colours_file.write_text("[]")
 
     with pytest.raises(FileNotFoundError) as exc_info:
         sort_playlist_by_hue(file_paths)
@@ -107,8 +107,8 @@ def test_sort_playlist_success(tmp_path, sample_playlist, sample_color_data):
     playlist_file = file_paths.playlist_path()
     sample_playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
         json.dump([c.to_dict() for c in sample_color_data], f)
 
     # Sort playlist
@@ -148,17 +148,17 @@ def test_sort_playlist_with_missing_color_data(
 ):
     """Test that tracks without color data are excluded from sorted output."""
     file_paths = FilePaths(tmp_path)
-    # Remove color data for one track
-    color_data_subset = [
+    # Remove colour data for one track
+    colour_data_subset = [
         c for c in sample_color_data if c.track_id != "track_green"]
 
     # Write input files
     playlist_file = file_paths.playlist_path()
     sample_playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
-        json.dump([c.to_dict() for c in color_data_subset], f)
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
+        json.dump([c.to_dict() for c in colour_data_subset], f)
 
     # Sort playlist
     sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
@@ -177,7 +177,7 @@ def test_sort_playlist_with_missing_color_data(
 def test_sort_playlist_with_error_in_color_data(
     tmp_path, sample_playlist, sample_color_data
 ):
-    """Test that tracks with errors in color extraction are excluded."""
+    """Test that tracks with errors in colour extraction are excluded."""
     file_paths = FilePaths(tmp_path)
     # Set error on one track
     sample_color_data[1].error = "Failed to process image"
@@ -187,8 +187,8 @@ def test_sort_playlist_with_error_in_color_data(
     playlist_file = file_paths.playlist_path()
     sample_playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
         json.dump([c.to_dict() for c in sample_color_data], f)
 
     # Sort playlist
@@ -217,8 +217,8 @@ def test_sort_playlist_empty_playlist(tmp_path):
     playlist_file = file_paths.playlist_path()
     empty_playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
         json.dump([], f)
 
     # Sort playlist
@@ -248,8 +248,8 @@ def test_sort_playlist_single_track(tmp_path):
         ],
     )
 
-    color_data = [
-        ImageColorData(
+    colour_data = [
+        ImageColourData(
             track_id="track_1",
             rgbs=[(128, 64, 192)],
             hsvs=[(270.0, 66.7, 75.3)],
@@ -261,9 +261,9 @@ def test_sort_playlist_single_track(tmp_path):
     playlist_file = file_paths.playlist_path()
     single_track_playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
-        json.dump([c.to_dict() for c in color_data], f)
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
+        json.dump([c.to_dict() for c in colour_data], f)
 
     # Sort playlist
     sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)
@@ -281,8 +281,8 @@ def test_sort_playlist_hue_order(tmp_path):
     # Create playlist with tracks spanning the hue spectrum
     playlist = Playlist(
         id="spectrum_playlist",
-        name="Color Spectrum",
-        description="Full color range",
+        name="Colour Spectrum",
+        description="Full colour range",
         tracks=[
             Track(
                 id="track_yellow",
@@ -315,17 +315,17 @@ def test_sort_playlist_hue_order(tmp_path):
         ],
     )
 
-    color_data = [
-        ImageColorData(
+    colour_data = [
+        ImageColourData(
             track_id="track_yellow", rgbs=[], hsvs=[(60.0, 100.0, 100.0)], error=None
         ),
-        ImageColorData(
+        ImageColourData(
             track_id="track_magenta", rgbs=[], hsvs=[(300.0, 100.0, 100.0)], error=None
         ),
-        ImageColorData(
+        ImageColourData(
             track_id="track_cyan", rgbs=[], hsvs=[(180.0, 100.0, 100.0)], error=None
         ),
-        ImageColorData(
+        ImageColourData(
             track_id="track_orange", rgbs=[], hsvs=[(30.0, 100.0, 100.0)], error=None
         ),
     ]
@@ -334,9 +334,9 @@ def test_sort_playlist_hue_order(tmp_path):
     playlist_file = file_paths.playlist_path()
     playlist.to_json(playlist_file)
 
-    colors_file = file_paths.image_colours_path()
-    with open(colors_file, "w") as f:
-        json.dump([c.to_dict() for c in color_data], f)
+    colours_file = file_paths.image_colours_path()
+    with open(colours_file, "w") as f:
+        json.dump([c.to_dict() for c in colour_data], f)
 
     # Sort playlist
     sorted_playlist, excluded_count = sort_playlist_by_hue(file_paths)

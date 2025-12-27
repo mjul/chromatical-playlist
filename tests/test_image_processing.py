@@ -6,7 +6,7 @@ from PIL import Image
 
 from chromalist.files import FilePaths
 from chromalist.image_processing import ImageProcessor
-from chromalist.models import ImageColorData, Playlist, Track
+from chromalist.models import ImageColourData, Playlist, Track
 
 
 @pytest.fixture
@@ -52,31 +52,31 @@ def sample_playlist():
 @pytest.fixture
 def create_test_image():
     """Factory fixture to create test images."""
-    def _create_image(path: Path, colors: list[tuple[int, int, int]] = None, size: tuple[int, int] = (100, 100)):
-        """Create a test image with multiple colors.
+    def _create_image(path: Path, colours: list[tuple[int, int, int]] = None, size: tuple[int, int] = (100, 100)):
+        """Create a test image with multiple colours.
 
         Args:
             path: Path to save the image
-            colors: List of RGB colors to include. If None, creates a red image.
+            colours: List of RGB colours to include. If None, creates a red image.
             size: Image dimensions (width, height)
         """
-        if colors is None:
-            colors = [(255, 0, 0)]
+        if colours is None:
+            colours = [(255, 0, 0)]
 
         img = Image.new("RGB", size)
         pixels = img.load()
 
-        # Divide image into sections for each color
-        section_height = size[1] // len(colors)
+        # Divide image into sections for each colour
+        section_height = size[1] // len(colours)
 
-        for i, color in enumerate(colors):
+        for i, colour in enumerate(colours):
             y_start = i * section_height
             y_end = size[1] if i == len(
-                colors) - 1 else (i + 1) * section_height
+                colours) - 1 else (i + 1) * section_height
 
             for x in range(size[0]):
                 for y in range(y_start, y_end):
-                    pixels[x, y] = color
+                    pixels[x, y] = colour
 
         img.save(path, "JPEG")
     return _create_image
@@ -128,23 +128,23 @@ def test_process_images_success(temp_dir, sample_playlist, create_test_image):
     playlist_path = file_paths.playlist_path()
     sample_playlist.to_json(playlist_path)
 
-    # Create test images with multiple colors
+    # Create test images with multiple colours
     create_test_image(file_paths.track_image_path("track1"),
                       # Red shades
-                      colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
+                      colours=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
     create_test_image(file_paths.track_image_path("track2"),
                       # Green shades
-                      colors=[(0, 255, 0), (0, 200, 0), (0, 150, 0)])
+                      colours=[(0, 255, 0), (0, 200, 0), (0, 150, 0)])
     create_test_image(file_paths.track_image_path("track3"),
                       # Blue shades
-                      colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
+                      colours=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
 
     processor = ImageProcessor()
     results = processor.process_playlist(file_paths, k=3)
 
     # Verify results
     assert len(results) == 3
-    assert all(isinstance(r, ImageColorData) for r in results)
+    assert all(isinstance(r, ImageColourData) for r in results)
 
     # Check that all tracks were processed
     track_ids = {r.track_id for r in results}
@@ -153,7 +153,7 @@ def test_process_images_success(temp_dir, sample_playlist, create_test_image):
     # Verify no errors
     assert all(r.error is None for r in results)
 
-    # Verify each result has color data (k colors or fewer if image has fewer unique colors)
+    # Verify each result has colour data (k colours or fewer if image has fewer unique colours)
     for result in results:
         assert len(result.rgbs) >= 1 and len(result.rgbs) <= 3
         assert len(result.hsvs) >= 1 and len(result.hsvs) <= 3
@@ -180,13 +180,13 @@ def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_
     playlist_path = file_paths.playlist_path()
     sample_playlist.to_json(playlist_path)
 
-    # Create test images with multiple distinct colors
+    # Create test images with multiple distinct colours
     create_test_image(file_paths.track_image_path("track1"),
-                      colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0), (100, 0, 0), (50, 0, 0)])
+                      colours=[(255, 0, 0), (200, 0, 0), (150, 0, 0), (100, 0, 0), (50, 0, 0)])
     create_test_image(file_paths.track_image_path("track2"),
-                      colors=[(0, 255, 0), (0, 200, 0), (0, 150, 0), (0, 100, 0), (0, 50, 0)])
+                      colours=[(0, 255, 0), (0, 200, 0), (0, 150, 0), (0, 100, 0), (0, 50, 0)])
     create_test_image(file_paths.track_image_path("track3"),
-                      colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150), (0, 0, 100), (0, 0, 50)])
+                      colours=[(0, 0, 255), (0, 0, 200), (0, 0, 150), (0, 0, 100), (0, 0, 50)])
 
     processor = ImageProcessor()
 
@@ -197,7 +197,7 @@ def test_process_images_with_different_k(temp_dir, sample_playlist, create_test_
 
     # Test with k=5
     results_k5 = processor.process_playlist(file_paths, k=5)
-    # Note: k-means may return fewer clusters if there aren't enough distinct colors
+    # Note: k-means may return fewer clusters if there aren't enough distinct colours
     assert all(len(r.rgbs) >= 1 and len(r.rgbs) <= 5 for r in results_k5)
     assert all(len(r.hsvs) >= 1 and len(r.hsvs) <= 5 for r in results_k5)
 
@@ -211,9 +211,9 @@ def test_process_images_with_corrupted_image(temp_dir, sample_playlist, create_t
 
     # Create valid images for track1 and track3
     create_test_image(file_paths.track_image_path("track1"),
-                      colors=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
+                      colours=[(255, 0, 0), (200, 0, 0), (150, 0, 0)])
     create_test_image(file_paths.track_image_path("track3"),
-                      colors=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
+                      colours=[(0, 0, 255), (0, 0, 200), (0, 0, 150)])
 
     # Create corrupted image for track2
     corrupted_path = file_paths.track_image_path("track2")
@@ -245,9 +245,9 @@ def test_process_images_with_corrupted_image(temp_dir, sample_playlist, create_t
     assert len(track3_result.hsvs) >= 1
 
 
-def test_image_color_data_serialization():
-    """Test ImageColorData to_dict and from_dict methods."""
-    data = ImageColorData(
+def test_image_colour_data_serialization():
+    """Test ImageColourData to_dict and from_dict methods."""
+    data = ImageColourData(
         track_id="test_track",
         rgbs=[(255, 0, 0), (0, 255, 0), (0, 0, 255)],
         hsvs=[(0.0, 100.0, 100.0), (120.0, 100.0, 100.0), (240.0, 100.0, 100.0)],
@@ -261,16 +261,16 @@ def test_image_color_data_serialization():
     assert data_dict["error"] is None
 
     # Test from_dict
-    restored = ImageColorData.from_dict(data_dict)
+    restored = ImageColourData.from_dict(data_dict)
     assert restored.track_id == data.track_id
     assert restored.rgbs == data.rgbs
     assert restored.hsvs == data.hsvs
     assert restored.error == data.error
 
 
-def test_image_color_data_serialization_with_error():
-    """Test ImageColorData serialization when error is present."""
-    data = ImageColorData(
+def test_image_colour_data_serialization_with_error():
+    """Test ImageColourData serialization when error is present."""
+    data = ImageColourData(
         track_id="test_track",
         rgbs=[],
         hsvs=[],
@@ -282,14 +282,14 @@ def test_image_color_data_serialization_with_error():
     assert data_dict["rgbs"] == []
     assert data_dict["hsvs"] == []
 
-    restored = ImageColorData.from_dict(data_dict)
+    restored = ImageColourData.from_dict(data_dict)
     assert restored.error == "Failed to process image"
     assert restored.rgbs == []
     assert restored.hsvs == []
 
 
-def test_extract_colors_sorts_by_frequency(temp_dir, create_test_image):
-    """Test that extracted colors are sorted by frequency (most common first)."""
+def test_extract_colours_sorts_by_frequency(temp_dir, create_test_image):
+    """Test that extracted colours are sorted by frequency (most common first)."""
     # Create an image with mostly red pixels and some blue pixels
     img = Image.new("RGB", (100, 100))
     pixels = img.load()
@@ -308,10 +308,10 @@ def test_extract_colors_sorts_by_frequency(temp_dir, create_test_image):
     img.save(image_path, "JPEG")
 
     processor = ImageProcessor()
-    rgbs, hsvs = processor.extract_colors(image_path, k=2)
+    rgbs, hsvs = processor.extract_colours(image_path, k=2)
 
-    # The most frequent color (red) should be first
-    # Note: Due to JPEG compression, colors might not be exact
+    # The most frequent colour (red) should be first
+    # Note: Due to JPEG compression, colours might not be exact
     assert len(rgbs) == 2
     assert len(hsvs) == 2
 
