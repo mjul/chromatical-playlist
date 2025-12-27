@@ -113,7 +113,7 @@ def process_images(
     with typer.progressbar(playlist.tracks, label="Processing") as progress:
         for track in progress:
             try:
-                results.append(processor.proces_track(file_paths, k, track))
+                results.append(processor.process_track(file_paths, k, track))
             except FileNotFoundError as e:
                 typer.echo(f"❌ Error: {e}", err=True)
                 raise typer.Exit(code=1)

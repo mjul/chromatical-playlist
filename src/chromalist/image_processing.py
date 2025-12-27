@@ -114,11 +114,11 @@ class ImageProcessor:
         # Process each track's image
         results = []
         for track in playlist.tracks:
-            results.append(self.proces_track(file_paths, k, track))
+            results.append(self.process_track(file_paths, k, track))
 
         return results
 
-    def proces_track(self, file_paths: FilePaths, k, track) -> ImageColourData:
+    def process_track(self, file_paths: FilePaths, k, track) -> ImageColourData:
         image_path = file_paths.track_image_path(track.id)
 
         try:
