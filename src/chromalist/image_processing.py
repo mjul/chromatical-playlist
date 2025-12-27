@@ -114,23 +114,28 @@ class ImageProcessor:
         # Process each track's image
         results = []
         for track in playlist.tracks:
-            image_path = file_paths.track_image_path(track.id)
-
-            try:
-                rgbs, hsvs = self.extract_colors(image_path, k)
-                results.append(ImageColorData(
-                    track_id=track.id,
-                    rgbs=rgbs,
-                    hsvs=hsvs,
-                    error=None
-                ))
-            except Exception as e:
-                # Flag error but continue processing
-                results.append(ImageColorData(
-                    track_id=track.id,
-                    rgbs=[],
-                    hsvs=[],
-                    error=str(e)
-                ))
+            results.append(self.proces_track(file_paths, k, track))
 
         return results
+
+    def proces_track(self, file_paths: FilePaths, k, track) -> ImageColorData:
+        image_path = file_paths.track_image_path(track.id)
+
+        try:
+            rgbs, hsvs = self.extract_colors(image_path, k)
+            result = ImageColorData(
+                track_id=track.id,
+                rgbs=rgbs,
+                hsvs=hsvs,
+                error=None
+            )
+        except Exception as e:
+            # Flag error but continue processing
+            result = ImageColorData(
+                track_id=track.id,
+                rgbs=[],
+                hsvs=[],
+                error=str(e)
+            )
+
+        return result
