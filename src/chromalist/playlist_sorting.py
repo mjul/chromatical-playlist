@@ -52,7 +52,7 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
         colours_data_raw = json.load(f)
 
     # Parse colour data into ImageColourData objects and create track_id -> hue mapping
-    track_hues: dict[str, float] = {}
+    sort_keys: dict[str, (float, float)] = {}
     for item in colours_data_raw:
         colour_data = ImageColourData.from_dict(item)
 
@@ -62,23 +62,34 @@ def sort_playlist_by_hue(file_paths: FilePaths) -> tuple[Playlist, int]:
 
         # Extract hue from the most dominant colour (first in list)
         hue = colour_data.hsvs[0][0]  # First colour, first component (hue)
-        track_hues[colour_data.track_id] = hue
+        # First colour, second component (saturation)
+        sat = colour_data.hsvs[0][1]
+        val = colour_data.hsvs[0][2]  # First colour, third component (value)
+
+        # Consider as anachromatic if saturation is low
+        # There is no science to this threshold, try to pick a reasonable value
+        anachromatic = 1*(sat < 20)
+
+        # We want to sort anachromatic colours (greyscale) to the end and separate the white (high v) from black (low v)
+        # Otherwise, sort by hue
+        sort_keys[colour_data.track_id] = (
+            anachromatic*val, (1-anachromatic)*hue)
 
     # Separate tracks into sortable and excluded
     sortable_tracks = []
     excluded_tracks = []
 
     for track in playlist.tracks:
-        if track.id in track_hues:
+        if track.id in sort_keys:
             # Set the hue field for transparency
-            track.hue = track_hues[track.id]
+            track.sort_key = sort_keys[track.id]
             sortable_tracks.append(track)
         else:
             excluded_tracks.append(track)
 
     # Sort tracks by hue (0-360°)
-    sortable_tracks.sort(
-        key=lambda t: t.hue if t.hue is not None else float('inf'))
+    sortable_tracks.sort(key=lambda t: t.sort_key if t.sort_key is not None else (
+        float('inf'), float('inf')))
 
     # Create sorted playlist with same metadata but reordered tracks
     sorted_playlist = Playlist(
